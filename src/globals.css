@@ -1,0 +1,37 @@
+@import "tailwindcss";
+
+* {
+  font-family: "Inter", sans-serif;
+}
+
+:root {
+  font-optical-sizing: auto;
+  font-weight: 400;
+  line-height: 1.5;
+  font-style: normal;
+
+  color-scheme: light dark;
+
+  /* Dark theme defaults */
+  color: white;
+  background-color: black;
+
+  font-synthesis: none;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+::selection {
+  background: hsl(30, 100%, 20%);
+}
+
+em {
+  font-family: 'Libre Baskerville', serif;
+}
+
+@media (width >= 48rem /* 768px */) {
+  * {
+    cursor: none;
+  }
+}
