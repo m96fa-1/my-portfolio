@@ -1,7 +1,9 @@
+@import url("./assets/fonts/general-sans/css/general-sans.css");
+
 @import "tailwindcss";
 
 * {
-  font-family: "Inter", sans-serif;
+  font-family: "GeneralSans-Variable", sans-serif;
 }
 
 :root {
@@ -20,6 +22,8 @@
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+
+  overflow-x: hidden;
 }
 
 ::selection {
@@ -27,7 +31,7 @@
 }
 
 em {
-  font-family: 'Libre Baskerville', serif;
+  font-family: 'Times New Roman', Times, serif;
 }
 
 @media (width >= 48rem /* 768px */) {
