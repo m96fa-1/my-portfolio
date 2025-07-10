@@ -1,4 +1,5 @@
 import React from 'react';
+import { Analytics } from '@vercel/analytics/react';
 import MouseCursor from './components/MouseCursor';
 import Header from './components/Header';
 import Main from './components/Main';
@@ -29,6 +30,7 @@ export default function App() {
       {!isMobile && <MouseCursor />}
       <Header isMobile={isMobile} />
       <Main />
+      <Analytics />
     </>
   );
 }
