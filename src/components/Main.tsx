@@ -54,7 +54,7 @@ export default function Main() {
           <motion.p
             className='w-[calc(100vw/2)] p-4 text-[3.5vw] md:text-[3vw] lg:text-[2.5vw] 2xl:text-[2vw]'
           >
-            My name is Mustafa Al-Ali. As a Junior Full-Stack Web Developer I mainly develop web apps using <b>JavaScript</b> frameworks such as <b>Next.js</b> and <b>React</b>. I also had some experience building desktop apps and games using <b>C++</b> with <b>SFML</b> and <b>OpenGL</b> libraries. I look forward to dive deeply into the world of web development and learn to build something new each day.
+            My name is Mustafa Al-Ali. As a junior full-stack web developer I mainly develop web apps using <b>JavaScript</b> frameworks such as <b>Next.js</b> and <b>React</b>. I also had some experience building desktop apps and games using <b>C++</b> with <b>SFML</b> and <b>OpenGL</b> libraries. I look forward to dive deeply into the world of web development and learn to build something new each day.
           </motion.p>
           <div className='relative w-[calc(100vw/2)] h-[calc(133vw/2)] after:absolute after:inset-0 after:bg-radial after:from-[#0003] after:from-30% after:to-black after:to-75%'>
             <motion.div

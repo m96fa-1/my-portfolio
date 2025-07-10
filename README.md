@@ -1,6 +1,8 @@
 # My Personal Portfolio
 This is my personl portfolio which includes information about me.\
 Yhis project was built with [Vite](https://vite.dev).
+## Preview
+You can preview my website by clicking on the following link [https://my-portfolio-mustafa-al-alis-projects.vercel.app/](https://my-portfolio-mustafa-al-alis-projects.vercel.app/).
 ## Languages, Libraries and Packages Used in This Project
 - React.
 - TypeScript.
