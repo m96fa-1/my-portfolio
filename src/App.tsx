@@ -4,8 +4,8 @@ import Header from './components/Header';
 import Main from './components/Main';
 
 /**
- * min-n = n: @media (width >= m)
- * max-n = n: @media (width < m)
+ * min-n = n: media (width >= m)
+ * max-n = n: media (width < m)
  * 
  *  sm: 40rem ->  640px
  *  md: 48rem ->  768px

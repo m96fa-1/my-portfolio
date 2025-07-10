@@ -4,7 +4,7 @@ const animationDuration = 0.15;
 
 export default function Header({ isMobile }: { isMobile: boolean }) {
   return (
-    <header className='px-4 flex items-center justify-between'>
+    <header className='px-7 pt-7 flex items-center justify-between md:px-14'>
       <motion.a
         href='/'
         initial={{ x: -100, opacity: 0 }}
@@ -37,7 +37,7 @@ export default function Header({ isMobile }: { isMobile: boolean }) {
       {isMobile ? (
         <div className='md:hidden'>-<br/>-<br/>-</div>
       ) : (
-        <div className='flex items-center gap-4'>
+        <div className='flex items-center gap-14 text-lg'>
           <motion.button
             onClick={() => document.getElementById('about')?.scrollIntoView({ behavior: 'smooth' })}
             initial={{ y: -10, opacity: 0 }}
