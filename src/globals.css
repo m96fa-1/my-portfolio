@@ -39,7 +39,7 @@ em {
 }
 
 @media (width >= 48rem /* 768px */) {
-  * {
+  *, button:hover {
     cursor: none;
   }
 }

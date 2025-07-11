@@ -1,18 +1,39 @@
 import React from 'react';
 import * as motion from 'motion/react-client';
+import { animate } from 'motion';
 import clsx from 'clsx';
 
 const animationDuration = 0.15;
 
 export default function Header({ isMobile }: { isMobile: boolean }) {
   const [menuOpen, setMenuOpen] = React.useState(false);
+
+  React.useEffect(() => {
+    if (!isMobile) {
+      setMenuOpen(false);
+    }
+  }, [isMobile]);
+
+  React.useEffect(() => {
+    if (menuOpen) {
+      animate('main', { opacity: 0.5 });
+      document.querySelector('main')!.style.userSelect = 'none';
+      document.querySelector('main')!.style.webkitUserSelect = 'none';
+      document.querySelector('html')!.style.overflowY = 'hidden';
+    } else {
+      animate('main', { opacity: 1 });
+      document.querySelector('main')!.style.userSelect = 'auto';
+      document.querySelector('main')!.style.webkitUserSelect = 'auto';
+      document.querySelector('html')!.style.overflowY = 'visible';
+    }
+  }, [menuOpen]);
   
   return (
     <header className='px-7 pt-5 flex items-center justify-between md:px-14 md:pt-7'>
       <motion.a
         href='/'
-        initial={{ x: -100, opacity: 0 }}
-        animate={{ x: 0, opacity: 1, transition: { type: 'tween', duration: 1 } }}
+      initial={{ x: -100, opacity: 0 }}
+        animate={{ x: 0, opacity: 1, transition: { duration: 1, ease: 'easeInOut' } }}
         whileHover={{ scale: 1.05 }}
         transition={{ duration: animationDuration }}
       >
@@ -39,63 +60,104 @@ export default function Header({ isMobile }: { isMobile: boolean }) {
         </svg>
       </motion.a>
       {isMobile ? (
-        <motion.button
-          onClick={() => setMenuOpen(!menuOpen)}
-          className='flex flex-col items-end gap-[6px] md:hidden'
-          initial='initial'
-          animate={menuOpen ? 'open' : 'animate'}
-          whileHover={clsx(!menuOpen && 'hover')}
-        >
-          <motion.div
-            className='w-7 h-1 bg-white rounded-full origin-center'
-            variants={{
-              initial: { x: 5, opacity: 0, width: 20 },
-              animate: { x: 0, opacity: 1, transition: { duration: 1, ease: 'easeInOut' } },
-              hover: { width: 28 },
-              open: { x: 0, y: 10, opacity: 1, width: 28, rotate: 45 }
-            }}
+        <>
+          <motion.button
+            onClick={() => setMenuOpen(!menuOpen)}
+            className='flex flex-col items-end gap-[6px] z-100'
+            initial='initial'
+            animate={menuOpen ? 'open' : 'animate'}
+            whileHover={clsx(!menuOpen && 'hover')}
+          >
+            <motion.div
+              className='w-7 h-1 bg-white rounded-full origin-center'
+              variants={{
+                initial: { x: 5, opacity: 0, width: 20 },
+                animate: { x: 0, opacity: 1, transition: { duration: 1, ease: 'easeInOut' } },
+                hover: { width: 28 },
+                open: { x: 0, y: 10, opacity: 1, width: 28, rotate: 45 }
+              }}
+              transition={{ duration: 0.3, ease: 'easeInOut' }}
+            />
+            <motion.div
+              className='w-7 h-1 bg-white rounded-full'
+              variants={{
+                initial: { opacity: 0 },
+                animate: { opacity: 1, transition: { duration: 1, ease: 'easeInOut' } },
+                open: { opacity: 0 }
+              }}
+              transition={{ duration: 0.3, ease: 'easeInOut' }}
+            />
+            <motion.div
+              className='w-7 h-1 bg-white rounded-full origin-center'
+              variants={{
+                initial: { x: 5, opacity: 0, width: 12 },
+                animate: { x: 0, opacity: 1, transition: { duration: 1, ease: 'easeInOut' } },
+                hover: { width: 28 },
+                open: { x: 0, y: -10, opacity: 1, width: 28, rotate: -45 }
+              }}
+              transition={{ duration: 0.3, ease: 'easeInOut' }}
+            />
+          </motion.button>
+          <motion.nav
+            className='fixed top-0 bottom-0 right-0 w-[50vw] px-6 pt-[100px] flex flex-col bg-black z-99 text-[4vw] sm:text-[3vw]'
+            initial={{ x: window.innerWidth / 2 }}
+            animate={menuOpen ? { x: 0 } : { x: window.innerWidth / 2 }}
             transition={{ duration: 0.3, ease: 'easeInOut' }}
-          />
-          <motion.div
-            className='w-7 h-1 bg-white rounded-full'
-            variants={{
-              initial: { opacity: 0 },
-              animate: { opacity: 1, transition: { duration: 1, ease: 'easeInOut' } },
-              open: { opacity: 0 }
-            }}
-            transition={{ duration: 0.3, ease: 'easeInOut' }}
-          />
-          <motion.div
-            className='w-7 h-1 bg-white rounded-full origin-center'
-            variants={{
-              initial: { x: 5, opacity: 0, width: 12 },
-              animate: { x: 0, opacity: 1, transition: { duration: 1, ease: 'easeInOut' } },
-              hover: { width: 28 },
-              open: { x: 0, y: -10, opacity: 1, width: 28, rotate: -45 }
-            }}
-            transition={{ duration: 0.3, ease: 'easeInOut' }}
-          />
-        </motion.button>
+          >
+            <motion.button
+              onClick={() => {
+                document.getElementById('about')?.scrollIntoView({ behavior: 'smooth' });
+                setMenuOpen(false);
+              }}
+              className='py-[2vw] text-left'
+              initial={{ opacity: 0.8, filter: 'blur' }}
+              whileHover={{ x: 5, opacity: 1 }}
+              transition={{ duration: animationDuration, ease: 'easeInOut' }}
+            >About</motion.button>
+            <hr className='w-8/10 ml-1 text-gray-400' />
+            <motion.button
+              onClick={() => {
+                document.getElementById('projects')?.scrollIntoView({ behavior: 'smooth' });
+                setMenuOpen(false);
+              }}
+              className='py-[2vw] text-left'
+              initial={{ opacity: 0.8, filter: 'blur' }}
+              whileHover={{ x: 5, opacity: 1 }}
+              transition={{ duration: animationDuration, ease: 'easeInOut' }}
+            >Projects</motion.button>
+            <hr className='w-8/10 ml-1 text-gray-400' />
+            <motion.button
+              onClick={() => {
+                document.getElementById('contact')?.scrollIntoView({ behavior: 'smooth' });
+                setMenuOpen(false);
+              }}
+              className='py-[2vw] text-left'
+              initial={{ opacity: 0.8, filter: 'blur' }}
+              whileHover={{ x: 5, opacity: 1 }}
+              transition={{ duration: animationDuration, ease: 'easeInOut' }}
+            >Contact</motion.button>
+          </motion.nav>
+        </>
       ) : (
         <div className='flex items-center gap-14 text-lg'>
           <motion.button
             onClick={() => document.getElementById('about')?.scrollIntoView({ behavior: 'smooth' })}
             initial={{ y: -10, opacity: 0 }}
-            animate={{ y: 0, opacity: 1, transition: { type: 'tween', duration: 1 } }}
+            animate={{ y: 0, opacity: 1, transition: { duration: 1, ease: 'easeInOut' } }}
             whileHover={{ scale: 1.05, rotate: 3 }}
             transition={{ duration: animationDuration }}
           >About</motion.button>
           <motion.button
             onClick={() => document.getElementById('projects')?.scrollIntoView({ behavior: 'smooth' })}
             initial={{ y: -10, opacity: 0 }}
-            animate={{ y: 0, opacity: 1, transition: { type: 'tween', duration: 1 } }}
+            animate={{ y: 0, opacity: 1, transition: { duration: 1, ease: 'easeInOut' } }}
             whileHover={{ scale: 1.05, rotate: 3 }}
             transition={{ duration: animationDuration }}
           >Projects</motion.button>
           <motion.button
             onClick={() => document.getElementById('contact')?.scrollIntoView({ behavior: 'smooth' })}
             initial={{ y: -10, opacity: 0 }}
-            animate={{ y: 0, opacity: 1, transition: { type: 'tween', duration: 1 } }}
+            animate={{ y: 0, opacity: 1, transition: { duration: 1, ease: 'easeInOut' } }}
             whileHover={{ scale: 1.05, rotate: 3 }}
             transition={{ duration: animationDuration }}
           >Contact</motion.button>
