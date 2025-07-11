@@ -30,6 +30,10 @@
   background: hsl(30, 100%, 20%);
 }
 
+button:hover {
+  cursor: pointer;
+}
+
 em {
   font-family: 'Times New Roman', Times, serif;
 }

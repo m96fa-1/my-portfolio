@@ -1,10 +1,14 @@
+import React from 'react';
 import * as motion from 'motion/react-client';
+import clsx from 'clsx';
 
 const animationDuration = 0.15;
 
 export default function Header({ isMobile }: { isMobile: boolean }) {
+  const [menuOpen, setMenuOpen] = React.useState(false);
+  
   return (
-    <header className='px-7 pt-7 flex items-center justify-between md:px-14'>
+    <header className='px-7 pt-5 flex items-center justify-between md:px-14 md:pt-7'>
       <motion.a
         href='/'
         initial={{ x: -100, opacity: 0 }}
@@ -35,7 +39,43 @@ export default function Header({ isMobile }: { isMobile: boolean }) {
         </svg>
       </motion.a>
       {isMobile ? (
-        <div className='md:hidden'>-<br/>-<br/>-</div>
+        <motion.button
+          onClick={() => setMenuOpen(!menuOpen)}
+          className='flex flex-col items-end gap-[6px] md:hidden'
+          initial='initial'
+          animate={menuOpen ? 'open' : 'animate'}
+          whileHover={clsx(!menuOpen && 'hover')}
+        >
+          <motion.div
+            className='w-7 h-1 bg-white rounded-full origin-center'
+            variants={{
+              initial: { x: 5, opacity: 0, width: 20 },
+              animate: { x: 0, opacity: 1, transition: { duration: 1, ease: 'easeInOut' } },
+              hover: { width: 28 },
+              open: { x: 0, y: 10, opacity: 1, width: 28, rotate: 45 }
+            }}
+            transition={{ duration: 0.3, ease: 'easeInOut' }}
+          />
+          <motion.div
+            className='w-7 h-1 bg-white rounded-full'
+            variants={{
+              initial: { opacity: 0 },
+              animate: { opacity: 1, transition: { duration: 1, ease: 'easeInOut' } },
+              open: { opacity: 0 }
+            }}
+            transition={{ duration: 0.3, ease: 'easeInOut' }}
+          />
+          <motion.div
+            className='w-7 h-1 bg-white rounded-full origin-center'
+            variants={{
+              initial: { x: 5, opacity: 0, width: 12 },
+              animate: { x: 0, opacity: 1, transition: { duration: 1, ease: 'easeInOut' } },
+              hover: { width: 28 },
+              open: { x: 0, y: -10, opacity: 1, width: 28, rotate: -45 }
+            }}
+            transition={{ duration: 0.3, ease: 'easeInOut' }}
+          />
+        </motion.button>
       ) : (
         <div className='flex items-center gap-14 text-lg'>
           <motion.button
