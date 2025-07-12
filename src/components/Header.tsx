@@ -5,14 +5,14 @@ import clsx from 'clsx';
 
 const animationDuration = 0.15;
 
-export default function Header({ isMobile }: { isMobile: boolean }) {
+export default function Header({ screenWidth }: { screenWidth: any }) {
   const [menuOpen, setMenuOpen] = React.useState(false);
 
   React.useEffect(() => {
-    if (!isMobile) {
+    if (screenWidth['md']) {
       setMenuOpen(false);
     }
-  }, [isMobile]);
+  }, [screenWidth['md']]);
 
   React.useEffect(() => {
     if (menuOpen) {
@@ -29,7 +29,7 @@ export default function Header({ isMobile }: { isMobile: boolean }) {
   }, [menuOpen]);
   
   return (
-    <header className='px-7 pt-5 flex items-center justify-between md:px-14 md:pt-7'>
+    <header className='px-7 pt-5 flex items-center justify-between lg:px-14 lg:pt-7'>
       <motion.a
         href='/'
       initial={{ x: -100, opacity: 0 }}
@@ -59,7 +59,7 @@ export default function Header({ isMobile }: { isMobile: boolean }) {
           />
         </svg>
       </motion.a>
-      {isMobile ? (
+      {!screenWidth['md'] ? (
         <>
           <motion.button
             onClick={() => setMenuOpen(!menuOpen)}
@@ -100,8 +100,8 @@ export default function Header({ isMobile }: { isMobile: boolean }) {
           </motion.button>
           <motion.nav
             className='fixed top-0 bottom-0 right-0 w-[50vw] px-6 pt-[100px] flex flex-col bg-black z-99 text-[4vw] sm:text-[3vw]'
-            initial={{ x: window.innerWidth / 2 }}
-            animate={menuOpen ? { x: 0 } : { x: window.innerWidth / 2 }}
+            initial={{ x: '50vw' }}
+            animate={menuOpen ? { x: 0 } : { x: '50vw' }}
             transition={{ duration: 0.3, ease: 'easeInOut' }}
           >
             <motion.button
@@ -114,6 +114,17 @@ export default function Header({ isMobile }: { isMobile: boolean }) {
               whileHover={{ x: 5, opacity: 1 }}
               transition={{ duration: animationDuration, ease: 'easeInOut' }}
             >About</motion.button>
+            <hr className='w-8/10 ml-1 text-gray-400' />
+            <motion.button
+              onClick={() => {
+                document.getElementById('languages')?.scrollIntoView({ behavior: 'smooth' });
+                setMenuOpen(false);
+              }}
+              className='py-[2vw] text-left'
+              initial={{ opacity: 0.8, filter: 'blur' }}
+              whileHover={{ x: 5, opacity: 1 }}
+              transition={{ duration: animationDuration, ease: 'easeInOut' }}
+            >Languages</motion.button>
             <hr className='w-8/10 ml-1 text-gray-400' />
             <motion.button
               onClick={() => {
@@ -147,6 +158,13 @@ export default function Header({ isMobile }: { isMobile: boolean }) {
             whileHover={{ scale: 1.05, rotate: 3 }}
             transition={{ duration: animationDuration }}
           >About</motion.button>
+          <motion.button
+            onClick={() => document.getElementById('languages')?.scrollIntoView({ behavior: 'smooth' })}
+            initial={{ y: -10, opacity: 0 }}
+            animate={{ y: 0, opacity: 1, transition: { duration: 1, ease: 'easeInOut' } }}
+            whileHover={{ scale: 1.05, rotate: 3 }}
+            transition={{ duration: animationDuration }}
+          >Languages</motion.button>
           <motion.button
             onClick={() => document.getElementById('projects')?.scrollIntoView({ behavior: 'smooth' })}
             initial={{ y: -10, opacity: 0 }}

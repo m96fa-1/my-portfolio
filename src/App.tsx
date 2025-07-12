@@ -16,10 +16,27 @@ import Main from './components/Main';
  */
 
 export default function App() {
-  const [isMobile, setIsMobile] = React.useState(window.innerWidth < 768);
+  const [screenWidth, setScreenWidth] = React.useState({
+    '2xl': window.innerWidth >= 1536,
+    'xl': window.innerWidth >= 1280,
+    'lg': window.innerWidth >= 1024,
+    'md': window.innerWidth >= 768,
+    'sm': window.innerWidth >= 640,
+    'max-sm': window.innerWidth < 640
+  });
 
   React.useEffect(() => {
-    const handleWindowResize = () => setIsMobile(window.innerWidth < 768);
+    const handleWindowResize = () => {
+      const windowWidth = window.innerWidth;
+      setScreenWidth({
+        '2xl': windowWidth >= 1536,
+        'xl': windowWidth >= 1280,
+        'lg': windowWidth >= 1024,
+        'md': windowWidth >= 768,
+        'sm': windowWidth >= 640,
+        'max-sm': windowWidth < 640
+      });
+    };
     
     window.addEventListener('resize', handleWindowResize);
     return () => window.addEventListener('resize', handleWindowResize);
@@ -27,9 +44,9 @@ export default function App() {
   
   return (
     <>
-      {!isMobile && <MouseCursor />}
-      <Header isMobile={isMobile} />
-      <Main />
+      {screenWidth['md'] && <MouseCursor />}
+      <Header screenWidth={screenWidth} />
+      <Main screenWidth={screenWidth} />
       <Analytics />
     </>
   );

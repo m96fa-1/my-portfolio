@@ -95,12 +95,10 @@ export default function MouseCursor() {
   return (
     <>
       <div
-        id='mouse-cursor-dot'
         ref={cursorDotRef}
         className='fixed w-[4px] h-[4px] bg-white rounded-full pointer-events-none -translate-1/2 z-1000'
       />
       <div
-        id='mouse-cursor-outer-circle'
         ref={cursorCircleRef}
         style={{
           transition: 'width 0.2s ease-in-out, height 0.2s ease-in-out, border-radius 0.2s ease-in-out',
