@@ -18,10 +18,10 @@ export default function AboutSection({ screenWidth }: { screenWidth: any }) {
 
       animate(image, { opacity: 1 }, { duration: 2, ease: 'easeIn' });
       animate([
-        [popup, { x: '25vw' }, { duration: 0.3, ease: 'easeOut', at: 2 }],
-        [popup, { scale: 1.1, rotate: 1.5 }, { duration: 0.5, ease: 'easeOut', at: '-0.1s' }],
+        [popup, { x: '25vw' }, { duration: 0.4, ease: 'easeOut', at: 2 }],
+        [popup, { scale: 1.1, rotate: 1.5 }, { duration: 0.72, ease: 'easeOut', at: '-0.1s' }],
         [popup, { scale: 1, rotate: 0 }, { duration: 0.5, ease: 'anticipate' }],
-        [popup, { x: screenWidth['sm'] ? '-50vw' : '125vw', scale: 1 }, { duration: 0.3, ease: 'easeIn' }],
+        [popup, { x: screenWidth['sm'] ? '-50vw' : '125vw', scale: 1 }, { duration: 0.4, ease: 'easeIn' }],
       ]);
     }
   }, [imageInView]);
@@ -46,7 +46,7 @@ export default function AboutSection({ screenWidth }: { screenWidth: any }) {
         className='sm:w-[calc(100vw/2)] px-8 py-2 sm:p-4 text-[4vw] sm:text-[3vw] lg:text-[2.5vw] 2xl:text-[2vw]'
         initial={{ y: 10, opacity: 0 }}
       >
-        My name is Mustafa Al-Ali. As a junior full-stack web developer I mainly develop web apps using <b>JavaScript</b> frameworks such as <b>Next.js</b> and <b>React</b>. I also had some experience building desktop apps and games using <b>C++</b> with <b>SFML</b> and <b>OpenGL</b> libraries. I look forward to dive deeply into the world of web development and learn to build something new each day.
+        My name is Mustafa Al-Ali. As a junior full-stack web developer I mainly develop web applications using <b>JavaScript</b> frameworks such as <b>Next.js</b> and <b>React</b>. I also had some experience building desktop applications and games using <b>C++</b> with <b>SFML</b> and <b>OpenGL</b> libraries. I look forward to dive deeply into the world of web development and learn to build something new each day.
       </motion.p>
       <motion.div
         ref={popupRef}
