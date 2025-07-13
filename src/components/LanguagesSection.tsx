@@ -1,43 +1,146 @@
-import * as motion from 'motion/react-client'
+import React, { useEffect, useRef } from 'react';
+import HoverElement from './HoverElement';
+import * as motion from 'motion/react-client';
+import { animate, type TargetAndTransition } from 'motion';
+import { useInView } from 'motion/react';
 import clsx from 'clsx';
 
-/**
- * TODO - Think about what structure will you be implementing to this section:
- * 1- Making every language a hoverable element.
- * 2- Making left to right and right to left animations for languages,
- *    delayed animations for the percentage bars and bottom-up animation
- *    for headings.
- * 3- Colors?
- */
-
 export default function LanguagesSection() {
-  const languageElements = languagesList.map((value, index) => (
+  const langH2ContainerRef = useRef(null);
+  const frameH2ContainerRef = useRef(null);
+  const langNameRefs = langList.map(() => useRef(null));
+  const frameNameRefs = frameList.map(() => useRef(null));
+  const langBarRefs = langList.map(() => useRef(null));
+  const frameBarRefs = frameList.map(() => useRef(null));
+  const langPercentRefs = langList.map(() => useRef(null));
+  const framePercentRefs = frameList.map(() => useRef(null));
+
+  const langElements = langList.map((value, index) => (
     <li key={index} className='w-[calc(4vw*7)] flex flex-col text-[4vw] sm:w-[calc(3.5vw*7)] sm:text-[3.5vw] lg:w-[calc(1024px*0.035*7)] lg:text-[calc(1024px*0.035)]'>
-      {value.name}
+      <motion.span
+        ref={langNameRefs[index]}
+      >{value.name}</motion.span>
       <div className='w-full flex items-center gap-2 text-[3vw] lg:text-[calc(1024px*0.03)]'>
-        <Bar className='flex-1 h-[1vw] lg:h-[calc(1024px*0.01)] bg-black' percentage={value.percentage} />
-        {value.percentage}%
+        <Bar
+          ref={langBarRefs[index]}
+          className='flex-1 h-[1vw] lg:h-[calc(1024px*0.01)] bg-black'
+          percentage={value.percentage}
+          initial={{ x: -50, opacity: 0 }}
+        />
+        <motion.span
+          ref={langPercentRefs[index]}
+          initial={{ y: 5, opacity: 0 }}
+        >{value.percentage}%</motion.span>
       </div>
     </li>
   ));
 
-  const frameworkElements = frameworksList.map((value, index) => (
+  const frameworkElements = frameList.map((value, index) => (
     <li key={index} className='w-[calc(4vw*7)] flex flex-col text-[4vw] sm:w-[calc(3.5vw*7)] sm:text-[3.5vw] lg:w-[calc(1024px*0.035*7)] lg:text-[calc(1024px*0.035)]'>
-      {value.name}
+      <motion.span
+        ref={frameNameRefs[index]}
+      >{value.name}</motion.span>
       <div className='w-full flex items-center gap-2 text-[3vw] lg:text-[calc(1024px*0.03)]'>
-        <Bar className='flex-1 h-[1vw] lg:h-[calc(1024px*0.01)] bg-black' percentage={value.percentage} />
-        {value.percentage}%
+        <Bar
+          ref={frameBarRefs[index]}
+          className='flex-1 h-[1vw] lg:h-[calc(1024px*0.01)] bg-black'
+          percentage={value.percentage}
+          initial={{ x: -50, opacity: 0 }}
+        />
+        <motion.span
+          ref={framePercentRefs[index]}
+          initial={{ y: 5, opacity: 0 }}
+        >{value.percentage}%</motion.span>
       </div>
     </li>
   ));
+
+  const langH2ContainerInView = useInView(langH2ContainerRef, { once: true });
+  const frameH2ContainerInView = useInView(frameH2ContainerRef, { once: true });
+  const langBarsInView = langBarRefs.map(ref => useInView(ref, { once: true }));
+  const frameBarsInView = frameBarRefs.map(ref => useInView(ref, { once: true }));
+  const langPercentsInView = langPercentRefs.map(ref => useInView(ref, { once: true }));
+  const framePercentsInView = framePercentRefs.map(ref => useInView(ref, { once: true }));
+
+  // Animations
+
+  // language heading
+  useEffect(() => {
+    if (langH2ContainerInView) {
+      animate(langH2ContainerRef.current!, { y: 0, opacity: 1 }, { duration: 1 });
+    }
+  }, [langH2ContainerInView]);
+
+  // framework heading
+  useEffect(() => {
+    if (frameH2ContainerInView) {
+      animate(frameH2ContainerRef.current!, { y: 0, opacity: 1 }, { duration: 1 });
+    }
+  }, [frameH2ContainerInView]);
+
+  // language bars
+  useEffect(() => {
+    langBarsInView.forEach((barInView, index) => {
+      if (barInView) {
+        animate(langBarRefs[index].current!, { x: 0, opacity: 1 }, { duration: 1 });
+      }
+    });
+  }, [langBarsInView]);
+
+  // framework bars
+  useEffect(() => {
+    frameBarsInView.forEach((barInView, index) => {
+      if (barInView) {
+        animate(frameBarRefs[index].current!, { x: 0, opacity: 1 }, { duration: 1 });
+      }
+    });
+  }, [frameBarsInView]);
+
+  // language percentage
+  useEffect(() => {
+    langPercentsInView.forEach((percentInView, index) => {
+      if (percentInView) {
+        animate(langPercentRefs[index].current!, { y: 0, opacity: 1 }, { duration: 1 });
+      }
+    });
+  }, [langPercentsInView]);
+
+  // framework percentage
+  useEffect(() => {
+    framePercentsInView.forEach((percentInView, index) => {
+      if (percentInView) {
+        animate(framePercentRefs[index].current!, { y: 0, opacity: 1 }, { duration: 1 });
+      }
+    });
+  }, [framePercentsInView]);
 
   return (
     <section id='languages' className='my-20 flex flex-col items-center'>
-      <h2 className='text-[5.5vw] lg:text-[calc(1024px*0.055)] font-bold'>Programming Languages I Know</h2>
+      <motion.div
+        ref={langH2ContainerRef}
+        initial={{ y: 10, opacity: 0 }}
+      >
+        <HoverElement
+          className='text-[5.5vw] lg:text-[calc(1024px*0.055)] font-bold'
+          elementType='h2'
+          text='Programming Languages I Know'
+          uppercase={false}
+        />
+      </motion.div>
       <ul className='grid grid-cols-2 gap-x-[20vw] lg:gap-x-[calc(1024px*0.20)]'>
-        {languageElements}
+        {langElements}
       </ul>
-      <h2 className='mt-20 text-[5.5vw] lg:text-[calc(1024px*0.055)] font-bold'>JS Frameworks & Libraries I Know</h2>
+      <motion.div
+        ref={frameH2ContainerRef}
+        initial={{ y: 10, opacity: 0 }}
+      >
+        <HoverElement
+          className='mt-20 text-[5.5vw] lg:text-[calc(1024px*0.055)] font-bold'
+          elementType='h2'
+          text='JS Frameworks & Libraries I Know'
+          uppercase={false}
+        />
+      </motion.div>
       <ul className='grid grid-cols-2 gap-x-[20vw] lg:gap-x-[calc(1024px*0.20)]'>
         {frameworkElements}
       </ul>
@@ -45,20 +148,34 @@ export default function LanguagesSection() {
   );
 }
 
-function Bar({ className, percentage }: { className?: string, percentage: number }) {
+function Bar({
+  ref,
+  className,
+  percentage,
+  initial,
+}: {
+  ref?: React.Ref<HTMLDivElement> | undefined,
+  className?: string | undefined,
+  percentage: number,
+  initial?: TargetAndTransition | undefined,
+}) {
   return (
-    <div className={clsx(className, 'rounded-full')}>
+    <motion.div
+      ref={ref}
+      className={clsx(className, 'rounded-full')}
+      initial={initial}
+    >
       <div
         style={{
           width: `${percentage}%`
         }}
         className='h-full bg-white rounded-full'
       />
-    </div>
+    </motion.div>
   );
 }
 
-const languagesList = [
+const langList = [
   { name: 'HTML5 & CSS3', percentage: 90 },
   { name: 'JavaScript', percentage: 80 },
   { name: 'TypeScript', percentage: 70 },
@@ -67,7 +184,7 @@ const languagesList = [
   { name: 'Python', percentage: 40 },
 ];
 
-const frameworksList = [
+const frameList = [
   { name: 'Next.js', percentage: 70 },
   { name: 'React', percentage: 90 },
   { name: 'Tailwind CSS', percentage: 80 },
