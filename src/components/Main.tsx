@@ -1,6 +1,8 @@
 import IntroSection from './IntroSection';
 import AboutSection from './AboutSection';
 import LanguagesSection from './LanguagesSection';
+import ProjectsSection from './ProjectsSection';
+import ContactSection from './ContactSection';
 
 export default function Main({ screenWidth }: { screenWidth: any }) {
   return (
@@ -8,12 +10,8 @@ export default function Main({ screenWidth }: { screenWidth: any }) {
       <IntroSection />
       <AboutSection screenWidth={screenWidth} />
       <LanguagesSection />
-      <section id='projects' className='min-h-[50vh]'>
-        Projects
-      </section>
-      <section id='contact' className='min-h-[50vh]'>
-        Contact
-      </section>
+      <ProjectsSection />
+      <ContactSection />
     </main>
   );
 }

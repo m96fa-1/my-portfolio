@@ -5,17 +5,19 @@ import { animate, type TargetAndTransition } from 'motion';
 import { useInView } from 'motion/react';
 import clsx from 'clsx';
 
+import { languages, frameworks } from '../lib/languages';
+
 export default function LanguagesSection() {
   const langH2ContainerRef = useRef(null);
   const frameH2ContainerRef = useRef(null);
-  const langNameRefs = langList.map(() => useRef(null));
-  const frameNameRefs = frameList.map(() => useRef(null));
-  const langBarRefs = langList.map(() => useRef(null));
-  const frameBarRefs = frameList.map(() => useRef(null));
-  const langPercentRefs = langList.map(() => useRef(null));
-  const framePercentRefs = frameList.map(() => useRef(null));
+  const langNameRefs = languages.map(() => useRef(null));
+  const frameNameRefs = frameworks.map(() => useRef(null));
+  const langBarRefs = languages.map(() => useRef(null));
+  const frameBarRefs = frameworks.map(() => useRef(null));
+  const langPercentRefs = languages.map(() => useRef(null));
+  const framePercentRefs = frameworks.map(() => useRef(null));
 
-  const langElements = langList.map((value, index) => (
+  const langElements = languages.map((value, index) => (
     <li key={index} className='w-[calc(4vw*7)] flex flex-col text-[4vw] sm:w-[calc(3.5vw*7)] sm:text-[3.5vw] lg:w-[calc(1024px*0.035*7)] lg:text-[calc(1024px*0.035)]'>
       <motion.span
         ref={langNameRefs[index]}
@@ -35,7 +37,7 @@ export default function LanguagesSection() {
     </li>
   ));
 
-  const frameworkElements = frameList.map((value, index) => (
+  const frameElements = frameworks.map((value, index) => (
     <li key={index} className='w-[calc(4vw*7)] flex flex-col text-[4vw] sm:w-[calc(3.5vw*7)] sm:text-[3.5vw] lg:w-[calc(1024px*0.035*7)] lg:text-[calc(1024px*0.035)]'>
       <motion.span
         ref={frameNameRefs[index]}
@@ -115,13 +117,13 @@ export default function LanguagesSection() {
   }, [framePercentsInView]);
 
   return (
-    <section id='languages' className='my-20 flex flex-col items-center'>
+    <section id='languages' className='min-h-screen my-20 flex flex-col items-center justify-center'>
       <motion.div
         ref={langH2ContainerRef}
         initial={{ y: 10, opacity: 0 }}
       >
         <HoverElement
-          className='text-[5.5vw] lg:text-[calc(1024px*0.055)] font-bold'
+          className='mb-[2vw] text-[5.5vw] lg:text-[calc(1024px*0.055)] font-bold'
           elementType='h2'
           text='Programming Languages I Know'
           uppercase={false}
@@ -135,14 +137,14 @@ export default function LanguagesSection() {
         initial={{ y: 10, opacity: 0 }}
       >
         <HoverElement
-          className='mt-20 text-[5.5vw] lg:text-[calc(1024px*0.055)] font-bold'
+          className='mb-[2vw] mt-20 text-[5.5vw] lg:text-[calc(1024px*0.055)] font-bold'
           elementType='h2'
           text='JS Frameworks & Libraries I Know'
           uppercase={false}
         />
       </motion.div>
       <ul className='grid grid-cols-2 gap-x-[20vw] lg:gap-x-[calc(1024px*0.20)]'>
-        {frameworkElements}
+        {frameElements}
       </ul>
     </section>
   );
@@ -174,21 +176,3 @@ function Bar({
     </motion.div>
   );
 }
-
-const langList = [
-  { name: 'HTML5 & CSS3', percentage: 90 },
-  { name: 'JavaScript', percentage: 80 },
-  { name: 'TypeScript', percentage: 70 },
-  { name: 'C/C++', percentage: 80 },
-  { name: 'PHP', percentage: 30 },
-  { name: 'Python', percentage: 40 },
-];
-
-const frameList = [
-  { name: 'Next.js', percentage: 70 },
-  { name: 'React', percentage: 90 },
-  { name: 'Tailwind CSS', percentage: 80 },
-  { name: 'Motion', percentage: 50 },
-  { name: 'MongoDB', percentage: 50 },
-  { name: 'MySQL', percentage: 20 },
-];

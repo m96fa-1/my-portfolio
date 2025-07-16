@@ -1,8 +1,13 @@
-@import url("./assets/fonts/general-sans/css/general-sans.css");
+@import url("./assets/general-sans/css/general-sans.css");
 
 @import "tailwindcss";
 
+@theme {
+  --shadow-project-card: 0 0 1rem;
+}
+
 * {
+  box-sizing: border-box;
   font-family: "GeneralSans-Variable", sans-serif;
 }
 
@@ -27,7 +32,12 @@
 }
 
 ::selection {
-  background: hsl(30, 100%, 20%);
+  background-color: hsl(30, 100%, 20%);
+  color: white;
+}
+
+img {
+  -webkit-user-drag: none;
 }
 
 button:hover {
@@ -36,6 +46,10 @@ button:hover {
 
 em {
   font-family: 'Times New Roman', Times, serif;
+}
+
+.hide-scrollbar::-webkit-scrollbar {
+  display: none;
 }
 
 @media (width >= 48rem /* 768px */) {
