@@ -2,7 +2,7 @@ const projects = [
   {
     name: 'Cheff.AI',
     description: 'Built an AI web app that takes ingredients and makes a meal recipe out of them.',
-    imageSrc: ['./src/assets/projects/cheff-ai/cheff-ai-0.png', './src/assets/projects/cheff-ai/cheff-ai-1.png'],
+    imageSrc: ['/assets/projects/cheff-ai/cheff-ai-0.png', '/assets/projects/cheff-ai/cheff-ai-1.png'],
     usedToBuild: [
       ['JavaScript', '#f7df1e', '#000'],
       ['React', '#00d8ff', '#000'],
@@ -13,7 +13,7 @@ const projects = [
   {
     name: 'Meme Generator',
     description: 'Built a random meme generator with the ability to put text on the top and bottom of the image.',
-    imageSrc: ['./src/assets/projects/meme-generator/meme-generator-0.png', './src/assets/projects/meme-generator/meme-generator-1.png'],
+    imageSrc: ['/assets/projects/meme-generator/meme-generator-0.png', '/assets/projects/meme-generator/meme-generator-1.png'],
     usedToBuild: [
       ['JavaScript', '#f7df1e', '#000'],
       ['React', '#00d8ff', '#000'],
@@ -23,7 +23,7 @@ const projects = [
   {
     name: 'Tenzies',
     description: 'Made Tenzies Game where you win the game by selecting the most dice recurrences and roll again until all dice are the same.',
-    imageSrc: ['./src/assets/projects/tenzies/tenzies-0.png', './src/assets/projects/tenzies/tenzies-1.png'],
+    imageSrc: ['/assets/projects/tenzies/tenzies-0.png', '/assets/projects/tenzies/tenzies-1.png', '/assets/projects/tenzies/tenzies-2.png'],
     usedToBuild: [
       ['JavaScript', '#f7df1e', '#000'],
       ['React', '#00d8ff', '#000']
@@ -32,7 +32,7 @@ const projects = [
   {
     name: 'Assembly: Endgame',
     description: 'Made a game where you keep guessing the letters inside the word with a maximum attempts of 8, it\'s a fun game to play.',
-    imageSrc: ['./src/assets/projects/assembly-endgame/assembly-endgame-0.png', './src/assets/projects/assembly-endgame/assembly-endgame-1.png'],
+    imageSrc: ['/assets/projects/assembly-endgame/assembly-endgame-0.png', '/assets/projects/assembly-endgame/assembly-endgame-1.png'],
     usedToBuild: [
       ['JavaScript', '#f7df1e', '#000'],
       ['React', '#00d8ff', '#000']
