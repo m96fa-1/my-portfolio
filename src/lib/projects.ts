@@ -32,7 +32,7 @@ const projects = [
   {
     name: 'Assembly: Endgame',
     description: 'Made a game where you keep guessing the letters inside the word with a maximum attempts of 8, it\'s a fun game to play.',
-    imageSrc: ['/assets/projects/assembly-endgame/assembly-endgame-0.png', '/assets/projects/assembly-endgame/assembly-endgame-1.png'],
+    imageSrc: ['/assets/projects/assembly-endgame/assembly-endgame-0.png', '/assets/projects/assembly-endgame/assembly-endgame-1.png', '/assets/projects/assembly-endgame/assembly-endgame-2.png', '/assets/projects/assembly-endgame/assembly-endgame-3.png', '/assets/projects/assembly-endgame/assembly-endgame-4.png', '/assets/projects/assembly-endgame/assembly-endgame-5.png', '/assets/projects/assembly-endgame/assembly-endgame-6.png'],
     usedToBuild: [
       ['JavaScript', '#f7df1e', '#000'],
       ['React', '#00d8ff', '#000']

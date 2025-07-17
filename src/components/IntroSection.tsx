@@ -3,7 +3,7 @@ import HoverElement from './HoverElement';
 
 export default function IntroSection() {
   return (
-    <section id='intro' className='min-h-screen mb-20 px-4 py-20 flex items-center justify-center'>
+    <section id='intro-section' className='min-h-screen mb-20 px-4 py-20 flex items-center justify-center'>
       <div className='lg:w-[66rem]'>
         <motion.div
           className='flex items-center'

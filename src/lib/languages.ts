@@ -9,7 +9,7 @@ export const languages = [
 ];
 
 export const frameworks = [
-  { name: 'Next.js', percentage: 70 },
+  { name: 'Next.js', percentage: 65 },
   { name: 'React', percentage: 90 },
   { name: 'Tailwind CSS', percentage: 80 },
   { name: 'Motion', percentage: 50 },

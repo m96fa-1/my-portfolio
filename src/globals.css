@@ -6,6 +6,15 @@
   --shadow-project-card: 0 0 1rem;
 }
 
+@utility text-md {
+  font-size: 1rem;
+  line-height: 1.25;
+}
+
+@utility drag-none {
+  -webkit-user-drag: none;
+}
+
 * {
   box-sizing: border-box;
   font-family: "GeneralSans-Variable", sans-serif;
@@ -34,10 +43,6 @@
 ::selection {
   background-color: hsl(30, 100%, 20%);
   color: white;
-}
-
-img {
-  -webkit-user-drag: none;
 }
 
 button:hover {

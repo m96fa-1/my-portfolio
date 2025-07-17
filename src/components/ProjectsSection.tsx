@@ -12,17 +12,26 @@ export default function ProjectsSection() {
   const rightArrowRef = useRef(null);
   const projectsContainerRef = useRef(null);
   const inViewProject = useRef(0);
+  const sliderContainerRef = useRef(null);
+  const sliderRef = useRef(null);
 
   const h2InView = useInView(h2Ref, { once: true });
   const leftArrowInView = useInView(leftArrowRef, { once: true });
   const rightArrowInView = useInView(rightArrowRef, { once: true });
+  const projectsContainerInView = useInView(projectsContainerRef, { once: true });
+  const sliderContainerInView = useInView(sliderContainerRef, { once: true });
 
-  // project sliding variables
-  const isDown = useRef(false);
+  // projects container sliding variables
+  const isDownContainer = useRef(false);
+  const isDragging = useRef(false);
   const startX = useRef(0);
   const scrollLeft = useRef(0);
 
-  // left arrow animation
+  // slider variables
+  const isDownSlider = useRef(false);
+  const mouseOffsetX = useRef(0);
+
+  // h2 animation
   useEffect(() => {
     if (h2InView) {
       animate(h2Ref.current!, { y: 0, opacity: 1 }, { duration: 1, ease: 'easeOut' });
@@ -43,16 +52,39 @@ export default function ProjectsSection() {
     }
   }, [rightArrowInView]);
 
+  // projects container animation
+  useEffect(() => {
+    if (projectsContainerInView) {
+      animate(projectsContainerRef.current!, { y: 0, opacity: 1 }, { duration: 1 });
+    }
+  }, [projectsContainerInView]);
+
+  // slider animation
+  useEffect(() => {
+    if (sliderContainerInView) {
+      animate(sliderContainerRef.current!, { y: 0, opacity: 1 }, { duration: 1, ease: 'easeOut' });
+    }
+  }, [sliderContainerInView]);
+
   // initializing project list as react nodes
   const projectElements = projects.map((proj, index) => (
-    <button key={index} id={`project-${index}`} className='shrink-0 w-70 lg:w-100 m-2 p-2 flex flex-col text-left bg-black shadow-project-card shadow-neutral-500 rounded-sm'>
-      <img className='w-full aspect-square object-cover rounded-sm select-none' src={proj.imageSrc[0]} alt={`${proj.name} Preview`} />
-      <h3 className='text-lg font-semibold'>{proj.name}</h3>
-      <p className='text-sm'>{proj.description}</p>
-    </button>
+    <motion.button key={index} initial={{ scale: 1 }} whileHover={{ scale: 1.01 }} id={`project-${index}`} className='relative shrink-0 w-70 lg:w-100 m-2 p-2 flex flex-col text-left bg-black shadow-project-card shadow-neutral-500 rounded-sm'>
+      <img className='w-full aspect-square object-cover rounded-sm select-none drag-none' src={proj.imageSrc[0]} alt={`${proj.name} Preview Image`} />
+      <h3 className='text-lg lg:text-xl font-semibold'>{proj.name}</h3>
+      <p className='text-sm lg:text-md'>{proj.description}</p>
+      <a href='/' className='absolute bottom-1 text-sm lg:text-md drag-none hover:opacity-85 hover:underline'>View On GitHub</a>
+    </motion.button>
   ));
 
-  const handleInViewProjectOnScroll = () => {
+  const handleSliderMovement = () => {
+    const projectsContainer = projectsContainerRef.current! as HTMLDivElement;
+    const sliderContainer = sliderContainerRef.current! as HTMLDivElement;
+    const slider = sliderRef.current! as HTMLDivElement;
+
+    slider.style.left = `${projectsContainer.scrollLeft * sliderContainer.clientWidth / projectsContainer.scrollWidth}px`;
+  };
+
+  const handleInViewProject = () => {
     if (!projectsContainerRef.current) return;
     const projectsContainer = projectsContainerRef.current as HTMLDivElement;
 
@@ -76,7 +108,7 @@ export default function ProjectsSection() {
     });
   };
 
-  // handle mouse x-scrolling
+  // handle mouse vertical scrolling
   useEffect(() => {
     if (!projectsContainerRef.current) return;
 
@@ -84,52 +116,143 @@ export default function ProjectsSection() {
     
     // start scrolling
     const handleMouseDown = (ev: MouseEvent) => {
-      isDown.current = true;
-      projectsContainer.style.cursor = 'grabbing';
-      projectsContainer.style.cursor = '-webkit-grabbing';
+      isDownContainer.current = true;
+      isDragging.current = false;
+
+      if (window.innerWidth < 768) {
+        projectsContainer.style.cursor = 'grabbing';
+        projectsContainer.style.cursor = '-webkit-grabbing';
+      }
+
       startX.current = ev.pageX - projectsContainer.offsetLeft;
       scrollLeft.current = projectsContainer.scrollLeft;
-    };
-
-    // end scrolling
-    const handleMouseLeave = () => {
-      isDown.current = false;
-      projectsContainer.style.cursor = window.innerWidth >= 768 ? 'none' : 'default';
-    };
-
-    // end scrolling
-    const handleMouseUp = () => {
-      isDown.current = false;
-      projectsContainer.style.cursor = window.innerWidth >= 768 ? 'none' : 'default';
     };
     
     // scroll logic
     const handleMouseMove = (ev: MouseEvent) => {
-      if (!isDown.current) {
+      if (!isDownContainer.current) {
         // not using screenWidth['md'] because it's a static variable and i'm too lazy to make it dynamic
-        projectsContainer.style.cursor = window.innerWidth >= 768 ? 'none' : 'default';
+        projectsContainer.style.cursor = window.innerWidth < 768 ? 'default' : 'none';
         return;
       }
-      ev.preventDefault();
+      isDragging.current = true;
+      
       const x = ev.pageX - projectsContainer.offsetLeft;
       projectsContainer.scrollLeft = scrollLeft.current - (x - startX.current);
+    };
 
-      // change inViewProject over scroll
-      handleInViewProjectOnScroll();
+    // end scrolling
+    const handleMouseLeave = () => {
+      isDownContainer.current = false;
+      projectsContainer.style.cursor = window.innerWidth < 768 ? 'default' : 'none';
+    };
+
+    // end scrolling
+    const handleMouseUp = () => {
+      isDownContainer.current = false;
+      projectsContainer.style.cursor = window.innerWidth < 768 ? 'default' : 'none';
+    };
+
+    // prevent clicks when scrolling
+    const handleMouseClick = (ev: MouseEvent) => {
+      if (isDragging.current) {
+        ev.stopPropagation();
+        ev.preventDefault();
+      }
     };
 
     projectsContainer.addEventListener('mousedown', handleMouseDown);
     projectsContainer.addEventListener('mouseleave', handleMouseLeave);
     projectsContainer.addEventListener('mouseup', handleMouseUp);
     projectsContainer.addEventListener('mousemove', handleMouseMove);
+    projectsContainer.addEventListener('click', handleMouseClick);
     
     return () => {
       projectsContainer.removeEventListener('mousedown', handleMouseDown);
       projectsContainer.removeEventListener('mouseleave', handleMouseLeave);
       projectsContainer.removeEventListener('mouseup', handleMouseUp);
       projectsContainer.removeEventListener('mousemove', handleMouseMove);
+      projectsContainer.removeEventListener('click', handleMouseClick);
     };
-  }, []);
+  }, [projectsContainerRef]);
+
+  // handle slider width
+  useEffect(() => {
+    if (!sliderRef.current) return;
+
+    const handleWindowResize = () => {
+      const slider = sliderRef.current! as HTMLDivElement;
+      const sliderContainer = sliderContainerRef.current! as HTMLDivElement;
+      const projectsContainer = projectsContainerRef.current! as HTMLDivElement;
+      
+      const projectsContainerWidth = projectsContainer.getBoundingClientRect().width;
+      const sliderContainerWidth = sliderContainer.clientWidth;
+      const scrollWidth = projectsContainer.scrollWidth;
+      
+      slider.style.width = `${projectsContainerWidth * sliderContainerWidth / scrollWidth}px`;
+    };
+
+    // initialize first
+    handleWindowResize();
+
+    window.addEventListener('resize', handleWindowResize);
+    return () => window.removeEventListener('resize', handleWindowResize);
+  }, [sliderRef]);
+
+  // handle slider events
+  useEffect(() => {
+    if (!sliderContainerRef.current) return;
+    const sliderContainer = sliderContainerRef.current as HTMLDivElement;
+    const slider = sliderRef.current! as HTMLDivElement;
+    const projectsContainer = projectsContainerRef.current! as HTMLDivElement;
+    
+    // handle both slider and sliderContainer mousedown events
+    const handleMouseDown = (ev: MouseEvent) => {
+      if (ev.target === slider) {
+        isDownSlider.current = true;
+        mouseOffsetX.current = ev.clientX - slider.offsetLeft;
+      }
+      else {
+        const mouseX = ev.clientX - sliderContainer.offsetLeft;
+        projectsContainer.scroll({ left: (mouseX - slider.clientWidth / 2) * projectsContainer.scrollWidth / sliderContainer.clientWidth, behavior: 'smooth' });
+      }
+    }
+
+    // scroll slider
+    const handleMouseMove = (ev: MouseEvent) => {
+      if (!isDownSlider.current) {
+        document.body.style.cursor = window.innerWidth < 768 ? 'default' : 'none';
+        slider.style.cursor = window.innerWidth < 768 ? 'grab' : 'none';
+        return;
+      }
+
+      if (window.innerWidth < 768) {
+        document.body.style.cursor = 'grabbing';
+        document.body.style.cursor = '-webkit-grabbing';
+        slider.style.cursor = 'grabbing';
+        slider.style.cursor = '-webkit-grabbing';
+      }
+
+      projectsContainer.scrollLeft = (ev.clientX - mouseOffsetX.current) * projectsContainer.scrollWidth / sliderContainer.clientWidth;
+    };
+
+    // stop scrolling
+    const handleMouseUp = () => {
+      isDownSlider.current = false;
+      document.body.style.cursor = window.innerWidth < 768 ? 'default' : 'none';
+      slider.style.cursor = window.innerWidth < 768 ? 'grab' : 'none';
+    };
+
+    sliderContainer.addEventListener('mousedown', handleMouseDown);
+    window.addEventListener('mousemove', handleMouseMove); // so the mouse can freely get out of the slider boundaries
+    window.addEventListener('mouseup', handleMouseUp);
+    
+    return () => {
+      sliderContainer.removeEventListener('mousedown', handleMouseDown);
+      window.removeEventListener('mousemove', handleMouseMove);
+      window.removeEventListener('mouseup', handleMouseUp);
+    }
+  }, [sliderContainerRef]);
 
   return (
     <section id='projects' className='min-h-screen flex flex-col items-center'>
@@ -149,12 +272,20 @@ export default function ProjectsSection() {
           onClick={() => {
             if (inViewProject.current <= 0) return;
             inViewProject.current--;
-            document.getElementById(`project-${inViewProject.current}`)?.scrollIntoView({ behavior: 'smooth', inline: inViewProject.current === 0 ? 'nearest' : 'center', block: 'nearest' });
+
+            const leftProject = document.getElementById(`project-${inViewProject.current}`)!;
+            if (inViewProject.current === 0) {
+              const projectContainer = projectsContainerRef.current! as HTMLDivElement;
+              projectContainer.scroll({ left: 0, behavior: 'smooth' });
+            }
+            else {
+              leftProject.scrollIntoView({ behavior: 'smooth', inline: 'center', block: 'nearest' });
+            }
           }}
           ref={leftArrowRef}
-          className='absolute top-42 left-0 w-12 h-12 sm:w-16 sm:h-16 lg:top-60 lg:w-20 lg:h-20 rounded-full'
+          className='absolute top-49 left-0 w-12 h-12 sm:top-47 sm:w-16 sm:h-16 lg:top-60 lg:w-20 lg:h-20 rounded-full'
           initial={{ x: -10, opacity: 0, scale: 1 }}
-          whileHover={{ scale: 1.1 }}
+          whileHover={{ scale: 1.05 }}
         >
           <svg viewBox='0 0 24 24' fill='none' version='1.1' xmlns='http://www.w3.org/2000/svg'>
             <path d='M 14.55, 6 8.55, 12 14.55, 18' stroke='#ffffff' strokeWidth='1.5' strokeLinecap='round' strokeLinejoin='round' style={{ strokeLinecap: 'round', strokeLinejoin: 'round' }} />
@@ -164,22 +295,41 @@ export default function ProjectsSection() {
           onClick={() => {
             if (inViewProject.current >= projects.length - 1) return;
             inViewProject.current++;
-            document.getElementById(`project-${inViewProject.current}`)?.scrollIntoView({ behavior: 'smooth', inline: inViewProject.current === projects.length - 1 ? 'nearest' : 'center', block: 'nearest' });
+
+            const rightProject = document.getElementById(`project-${inViewProject.current}`)!;
+            if (inViewProject.current === projects.length - 1) {
+              const projectContainer = projectsContainerRef.current! as HTMLDivElement;
+              projectContainer.scroll({ left: projectContainer.scrollWidth, behavior: 'smooth' });
+            }
+            else {
+              rightProject.scrollIntoView({ behavior: 'smooth', inline: 'center', block: 'nearest' });
+            }
           }}
           ref={rightArrowRef}
-          className='absolute top-42 right-0 w-12 h-12 sm:w-16 sm:h-16 lg:top-60 lg:w-20 lg:h-20 rounded-full'
+          className='absolute top-49 right-0 w-12 h-12 sm:top-47 sm:w-16 sm:h-16 lg:top-60 lg:w-20 lg:h-20 rounded-full'
           initial={{ x: 10, opacity: 0, scale: 1 }}
-          whileHover={{ scale: 1.1 }}
+          whileHover={{ scale: 1.05 }}
         >
           <svg viewBox='0 0 24 24' fill='none' version='1.1' xmlns='http://www.w3.org/2000/svg'>
             <path d='M 9.45, 6 15.45, 12 9.45, 18' stroke='#ffffff' strokeWidth='1.5' strokeLinecap='round' strokeLinejoin='round' style={{ strokeLinecap: 'round', strokeLinejoin: 'round' }} />
           </svg>
         </motion.button>
       </div>
-      <div onScroll={() => handleInViewProjectOnScroll()} ref={projectsContainerRef} className='w-[80vw] h-100 lg:h-140 flex gap-3 select-none overflow-auto hide-scrollbar'>
+      <motion.div
+        onScroll={() => {
+          // gets called on all scroll events on this element
+          handleSliderMovement();
+          handleInViewProject();
+        }}
+        ref={projectsContainerRef}
+        className='w-[80vw] h-110 lg:h-140 flex gap-3 select-none overflow-y-hidden overflow-x-auto hide-scrollbar'
+        initial={{ y: 20, opacity: 0 }}
+      >
         {projectElements}
-      </div>
-      <div>{/* displays how many slides there are as dots (should have a ref) */}</div>
+      </motion.div>
+      <motion.div ref={sliderContainerRef} initial={{ y: 5, opacity: 0 }} className='relative h-2 w-25 mt-5 bg-neutral-700 rounded-full cursor-pointer cursor-green'>
+        <div ref={sliderRef} className='absolute top-0 h-2 bg-white rounded-full max-md:cursor-grab cursor-green' />
+      </motion.div>
     </section>
   );
 }

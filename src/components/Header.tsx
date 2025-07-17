@@ -110,7 +110,7 @@ export default function Header({ screenWidth }: { screenWidth: any }) {
           >
             <motion.button
               onClick={() => {
-                document.getElementById('about')?.scrollIntoView({ behavior: 'smooth' });
+                document.getElementById('about-section')?.scrollIntoView({ behavior: 'smooth' });
                 setMenuOpen(false);
               }}
               className='py-[2vw] text-left'
@@ -121,7 +121,7 @@ export default function Header({ screenWidth }: { screenWidth: any }) {
             <hr className='w-8/10 ml-1 text-gray-400' />
             <motion.button
               onClick={() => {
-                document.getElementById('languages')?.scrollIntoView({ behavior: 'smooth' });
+                document.getElementById('languages-section')?.scrollIntoView({ behavior: 'smooth' });
                 setMenuOpen(false);
               }}
               className='py-[2vw] text-left'
@@ -132,7 +132,7 @@ export default function Header({ screenWidth }: { screenWidth: any }) {
             <hr className='w-8/10 ml-1 text-gray-400' />
             <motion.button
               onClick={() => {
-                document.getElementById('projects')?.scrollIntoView({ behavior: 'smooth' });
+                document.getElementById('projects-section')?.scrollIntoView({ behavior: 'smooth' });
                 setMenuOpen(false);
               }}
               className='py-[2vw] text-left'
@@ -143,7 +143,7 @@ export default function Header({ screenWidth }: { screenWidth: any }) {
             <hr className='w-8/10 ml-1 text-gray-400' />
             <motion.button
               onClick={() => {
-                document.getElementById('contact')?.scrollIntoView({ behavior: 'smooth' });
+                document.getElementById('contact-section')?.scrollIntoView({ behavior: 'smooth' });
                 setMenuOpen(false);
               }}
               className='py-[2vw] text-left'
@@ -157,28 +157,28 @@ export default function Header({ screenWidth }: { screenWidth: any }) {
       ) : (
         <div className='flex items-center gap-14 text-lg'>
           <motion.button
-            onClick={() => document.getElementById('about')?.scrollIntoView({ behavior: 'smooth' })}
+            onClick={() => document.getElementById('about-section')?.scrollIntoView({ behavior: 'smooth' })}
             initial={{ y: -10, opacity: 0 }}
             animate={{ y: 0, opacity: 1, transition: { duration: 1, ease: 'easeInOut' } }}
             whileHover={{ scale: 1.05, rotate: 3 }}
             transition={{ duration: animationDuration }}
           >About</motion.button>
           <motion.button
-            onClick={() => document.getElementById('languages')?.scrollIntoView({ behavior: 'smooth' })}
+            onClick={() => document.getElementById('languages-section')?.scrollIntoView({ behavior: 'smooth' })}
             initial={{ y: -10, opacity: 0 }}
             animate={{ y: 0, opacity: 1, transition: { duration: 1, ease: 'easeInOut' } }}
             whileHover={{ scale: 1.05, rotate: 3 }}
             transition={{ duration: animationDuration }}
           >Languages</motion.button>
           <motion.button
-            onClick={() => document.getElementById('projects')?.scrollIntoView({ behavior: 'smooth' })}
+            onClick={() => document.getElementById('projects-section')?.scrollIntoView({ behavior: 'smooth' })}
             initial={{ y: -10, opacity: 0 }}
             animate={{ y: 0, opacity: 1, transition: { duration: 1, ease: 'easeInOut' } }}
             whileHover={{ scale: 1.05, rotate: 3 }}
             transition={{ duration: animationDuration }}
           >Projects</motion.button>
           <motion.button
-            onClick={() => document.getElementById('contact')?.scrollIntoView({ behavior: 'smooth' })}
+            onClick={() => document.getElementById('contact-section')?.scrollIntoView({ behavior: 'smooth' })}
             initial={{ y: -10, opacity: 0 }}
             animate={{ y: 0, opacity: 1, transition: { duration: 1, ease: 'easeInOut' } }}
             whileHover={{ scale: 1.05, rotate: 3 }}
