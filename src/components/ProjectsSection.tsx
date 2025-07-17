@@ -72,7 +72,7 @@ export default function ProjectsSection() {
       <img className='w-full aspect-square object-cover rounded-sm select-none drag-none' src={proj.imageSrc[0]} alt={`${proj.name} Preview Image`} />
       <h3 className='text-lg lg:text-xl font-semibold'>{proj.name}</h3>
       <p className='text-sm lg:text-md'>{proj.description}</p>
-      <a href='/' className='absolute bottom-1 text-sm lg:text-md drag-none hover:opacity-85 hover:underline'>View On GitHub</a>
+      <a href='/' className='absolute bottom-1 text-sm lg:text-md drag-none underline opacity-85 hover:opacity-100'>View On GitHub</a>
     </motion.button>
   ));
 
@@ -255,7 +255,7 @@ export default function ProjectsSection() {
   }, [sliderContainerRef]);
 
   return (
-    <section id='projects' className='min-h-screen flex flex-col items-center'>
+    <section id='projects-section' className='min-h-screen flex flex-col items-center'>
       <motion.div
         ref={h2Ref}
         initial={{ y: 5, opacity: 0 }}
