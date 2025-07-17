@@ -211,6 +211,13 @@ export default function ProjectsSection() {
       if (ev.target === slider) {
         isDownSlider.current = true;
         mouseOffsetX.current = ev.clientX - slider.offsetLeft;
+        
+        if (window.innerWidth < 768) {
+          document.body.style.cursor = 'grabbing';
+          document.body.style.cursor = '-webkit-grabbing';
+          slider.style.cursor = 'grabbing';
+          slider.style.cursor = '-webkit-grabbing';
+        }
       }
       else {
         const mouseX = ev.clientX - sliderContainer.offsetLeft;
@@ -221,16 +228,9 @@ export default function ProjectsSection() {
     // scroll slider
     const handleMouseMove = (ev: MouseEvent) => {
       if (!isDownSlider.current) {
-        document.body.style.cursor = window.innerWidth < 768 ? 'default' : 'none';
+        document.body.style.cursor = window.innerWidth < 768 ? 'auto' : 'none';
         slider.style.cursor = window.innerWidth < 768 ? 'grab' : 'none';
         return;
-      }
-
-      if (window.innerWidth < 768) {
-        document.body.style.cursor = 'grabbing';
-        document.body.style.cursor = '-webkit-grabbing';
-        slider.style.cursor = 'grabbing';
-        slider.style.cursor = '-webkit-grabbing';
       }
 
       projectsContainer.scrollLeft = (ev.clientX - mouseOffsetX.current) * projectsContainer.scrollWidth / sliderContainer.clientWidth;
@@ -239,7 +239,7 @@ export default function ProjectsSection() {
     // stop scrolling
     const handleMouseUp = () => {
       isDownSlider.current = false;
-      document.body.style.cursor = window.innerWidth < 768 ? 'default' : 'none';
+      document.body.style.cursor = window.innerWidth < 768 ? 'auto' : 'none';
       slider.style.cursor = window.innerWidth < 768 ? 'grab' : 'none';
     };
 

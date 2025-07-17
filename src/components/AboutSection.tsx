@@ -14,7 +14,7 @@ export default function AboutSection({ screenWidth }: { screenWidth: any }) {
   useEffect(() => {
     if (imageInView) {
       const image = imageRef.current!;
-      const popup = popupRef.current!;
+      const popup = popupRef.current! as HTMLDivElement;
 
       animate(image, { opacity: 1 }, { duration: 2, ease: 'easeIn' });
       animate([
@@ -23,6 +23,10 @@ export default function AboutSection({ screenWidth }: { screenWidth: any }) {
         [popup, { scale: 1, rotate: 0 }, { duration: 0.5, ease: 'anticipate' }],
         [popup, { x: screenWidth['sm'] ? '-50vw' : '125vw', scale: 1 }, { duration: 0.4, ease: 'easeIn' }],
       ]);
+      
+      setTimeout(() => {
+        popup.style.display = 'none';
+      }, 4020 /* after the end of above animations */);
     }
   }, [imageInView]);
 
