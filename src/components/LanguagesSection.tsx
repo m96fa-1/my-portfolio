@@ -117,7 +117,7 @@ export default function LanguagesSection() {
   }, [framePercentsInView]);
 
   return (
-    <section id='languages-section' className='min-h-screen my-20 flex flex-col items-center justify-center'>
+    <section id='languages-section' className='min-h-screen md:my-20 flex flex-col items-center justify-center'>
       <motion.div
         ref={langH2ContainerRef}
         initial={{ y: 10, opacity: 0 }}

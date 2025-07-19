@@ -39,7 +39,7 @@ export default function AboutSection({ screenWidth }: { screenWidth: any }) {
   }, [paragraphInView]);
   
   return (
-    <section id='about-section' className='min-h-screen my-20 flex items-center max-sm:flex-col'>
+    <section id='about-section' className='min-h-screen md:my-20 flex items-center max-sm:flex-col'>
       <motion.div
         ref={imageRef}
         className='relative w-[80vw] h-[106.4vw] sm:w-[50vw] sm:h-[calc(133vw/2)] bg-[url(./assets/my-photo.jpg)] bg-cover bg-center after:absolute after:inset-0 after:bg-radial after:from-[#0001] after:from-30% after:to-black after:to-75%'

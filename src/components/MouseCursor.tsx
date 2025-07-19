@@ -30,7 +30,7 @@ export default function MouseCursor() {
 
       if (cursorDotRef.current) {
         const cursorDot = cursorDotRef.current as HTMLDivElement;
-        if (el.closest('a') || el.closest('button') || el.classList.contains('cursor-green')) {
+        if (el.closest('a') || el.closest('button') || el.closest('input') || el.closest('textarea') || el.classList.contains('cursor-green')) {
           cursorDot.style.backgroundColor = '#00f000';
         }
         else if (closestHoverable) {

@@ -11,7 +11,7 @@ export default function IntroSection() {
   const containerInView = useInView(containerRef, { once: true });
 
   return (
-    <section id='intro-section' className='min-h-screen mb-20 px-4 py-20 flex items-center justify-center'>
+    <section id='intro-section' className='min-h-screen md:mb-20 px-4 py-20 flex items-center justify-center'>
       <div ref={containerRef} className='lg:w-[66rem]'>
         <motion.div
           className='flex items-center'

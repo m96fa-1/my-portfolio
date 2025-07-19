@@ -7,17 +7,17 @@ import { useInView } from 'motion/react';
 import projects from '../lib/projects';
 
 export default function ProjectsSection() {
-  const h2Ref = useRef(null);
-  const leftArrowRef = useRef(null);
-  const rightArrowRef = useRef(null);
-  const projectsContainerRef = useRef(null);
+  const h2ContainerRef = useRef<HTMLDivElement>(null);
+  const arrowsContainerRef = useRef<HTMLDivElement>(null);
+  const leftArrowRef = useRef<HTMLButtonElement>(null);
+  const rightArrowRef = useRef<HTMLButtonElement>(null);
+  const projectsContainerRef = useRef<HTMLDivElement>(null);
   const inViewProject = useRef(0);
-  const sliderContainerRef = useRef(null);
-  const sliderRef = useRef(null);
+  const sliderContainerRef = useRef<HTMLDivElement>(null);
+  const sliderRef = useRef<HTMLDivElement>(null);
 
-  const h2InView = useInView(h2Ref, { once: true });
-  const leftArrowInView = useInView(leftArrowRef, { once: true });
-  const rightArrowInView = useInView(rightArrowRef, { once: true });
+  const h2InView = useInView(h2ContainerRef, { once: true });
+  const arrowsContainerInView = useInView(arrowsContainerRef, { once: true });
   const projectsContainerInView = useInView(projectsContainerRef, { once: true });
   const sliderContainerInView = useInView(sliderContainerRef, { once: true });
 
@@ -34,23 +34,19 @@ export default function ProjectsSection() {
   // h2 animation
   useEffect(() => {
     if (h2InView) {
-      animate(h2Ref.current!, { y: 0, opacity: 1 }, { duration: 1, ease: 'easeOut' });
+      animate(h2ContainerRef.current!, { y: 0, opacity: 1 }, { duration: 1, ease: 'easeOut' });
     }
   }, [h2InView]);
 
-  // left arrow animation
+  // left/right arrow animation
   useEffect(() => {
-    if (leftArrowInView) {
+    if (arrowsContainerInView) {
+      leftArrowRef.current!.style.display = 'inline-block';
+      rightArrowRef.current!.style.display = 'inline-block';
       animate(leftArrowRef.current!, { x: 0, opacity: 1 }, { duration: 1, ease: 'easeOut' });
-    }
-  }, [leftArrowInView]);
-  
-  // right arrow animation
-  useEffect(() => {
-    if (rightArrowInView) {
       animate(rightArrowRef.current!, { x: 0, opacity: 1 }, { duration: 1, ease: 'easeOut' });
     }
-  }, [rightArrowInView]);
+  }, [arrowsContainerInView]);
 
   // projects container animation
   useEffect(() => {
@@ -77,21 +73,21 @@ export default function ProjectsSection() {
   ));
 
   const handleSliderMovement = () => {
-    const projectsContainer = projectsContainerRef.current! as HTMLDivElement;
-    const sliderContainer = sliderContainerRef.current! as HTMLDivElement;
-    const slider = sliderRef.current! as HTMLDivElement;
+    const projectsContainer = projectsContainerRef.current!;
+    const sliderContainer = sliderContainerRef.current!;
+    const slider = sliderRef.current!;
 
     slider.style.left = `${projectsContainer.scrollLeft * sliderContainer.clientWidth / projectsContainer.scrollWidth}px`;
   };
 
   const handleInViewProject = () => {
     if (!projectsContainerRef.current) return;
-    const projectsContainer = projectsContainerRef.current as HTMLDivElement;
+    const projectsContainer = projectsContainerRef.current;
 
     const containerRect = projectsContainer.getBoundingClientRect();
     const containerCenter = containerRect.left + containerRect.width / 2;
     
-    // get elements as html elements
+    // get elements
     const elements = Array.from(projectsContainer.children);
 
     let closestDistance = Infinity;
@@ -112,7 +108,7 @@ export default function ProjectsSection() {
   useEffect(() => {
     if (!projectsContainerRef.current) return;
 
-    const projectsContainer = projectsContainerRef.current as HTMLDivElement;
+    const projectsContainer = projectsContainerRef.current;
     
     // start scrolling
     const handleMouseDown = (ev: MouseEvent) => {
@@ -181,9 +177,9 @@ export default function ProjectsSection() {
     if (!sliderRef.current) return;
 
     const handleWindowResize = () => {
-      const slider = sliderRef.current! as HTMLDivElement;
-      const sliderContainer = sliderContainerRef.current! as HTMLDivElement;
-      const projectsContainer = projectsContainerRef.current! as HTMLDivElement;
+      const slider = sliderRef.current!;
+      const sliderContainer = sliderContainerRef.current!;
+      const projectsContainer = projectsContainerRef.current!;
       
       const projectsContainerWidth = projectsContainer.getBoundingClientRect().width;
       const sliderContainerWidth = sliderContainer.clientWidth;
@@ -202,9 +198,9 @@ export default function ProjectsSection() {
   // handle slider events
   useEffect(() => {
     if (!sliderContainerRef.current) return;
-    const sliderContainer = sliderContainerRef.current as HTMLDivElement;
-    const slider = sliderRef.current! as HTMLDivElement;
-    const projectsContainer = projectsContainerRef.current! as HTMLDivElement;
+    const sliderContainer = sliderContainerRef.current;
+    const slider = sliderRef.current!;
+    const projectsContainer = projectsContainerRef.current!;
     
     // handle both slider and sliderContainer mousedown events
     const handleMouseDown = (ev: MouseEvent) => {
@@ -255,9 +251,9 @@ export default function ProjectsSection() {
   }, [sliderContainerRef]);
 
   return (
-    <section id='projects-section' className='min-h-screen flex flex-col items-center'>
+    <section id='projects-section' className='min-h-screen md:my-20 flex flex-col items-center justify-center'>
       <motion.div
-        ref={h2Ref}
+        ref={h2ContainerRef}
         initial={{ y: 5, opacity: 0 }}
       >
         <HoverElement
@@ -267,7 +263,7 @@ export default function ProjectsSection() {
           uppercase={false}
         />
       </motion.div>
-      <div className='relative w-screen'>
+      <div ref={arrowsContainerRef} className='relative w-screen'>
         <motion.button
           onClick={() => {
             if (inViewProject.current <= 0) return;
@@ -275,7 +271,7 @@ export default function ProjectsSection() {
 
             const leftProject = document.getElementById(`project-${inViewProject.current}`)!;
             if (inViewProject.current === 0) {
-              const projectContainer = projectsContainerRef.current! as HTMLDivElement;
+              const projectContainer = projectsContainerRef.current!;
               projectContainer.scroll({ left: 0, behavior: 'smooth' });
             }
             else {
@@ -283,7 +279,7 @@ export default function ProjectsSection() {
             }
           }}
           ref={leftArrowRef}
-          className='absolute top-49 left-0 w-12 h-12 sm:top-47 sm:w-16 sm:h-16 lg:top-60 lg:w-20 lg:h-20 rounded-full'
+          className='absolute top-49 left-0 w-12 h-12 sm:top-47 sm:w-16 sm:h-16 lg:top-60 lg:w-20 lg:h-20 hidden rounded-full'
           initial={{ x: -10, opacity: 0, scale: 1 }}
           whileHover={{ scale: 1.05 }}
         >
@@ -298,7 +294,7 @@ export default function ProjectsSection() {
 
             const rightProject = document.getElementById(`project-${inViewProject.current}`)!;
             if (inViewProject.current === projects.length - 1) {
-              const projectContainer = projectsContainerRef.current! as HTMLDivElement;
+              const projectContainer = projectsContainerRef.current!;
               projectContainer.scroll({ left: projectContainer.scrollWidth, behavior: 'smooth' });
             }
             else {
@@ -306,7 +302,7 @@ export default function ProjectsSection() {
             }
           }}
           ref={rightArrowRef}
-          className='absolute top-49 right-0 w-12 h-12 sm:top-47 sm:w-16 sm:h-16 lg:top-60 lg:w-20 lg:h-20 rounded-full'
+          className='absolute top-49 right-0 w-12 h-12 sm:top-47 sm:w-16 sm:h-16 lg:top-60 lg:w-20 lg:h-20 hidden rounded-full'
           initial={{ x: 10, opacity: 0, scale: 1 }}
           whileHover={{ scale: 1.05 }}
         >

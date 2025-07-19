@@ -48,6 +48,9 @@
 button:hover {
   cursor: pointer;
 }
+button:hover:disabled {
+  cursor: not-allowed;
+}
 
 em {
   font-family: 'Times New Roman', Times, serif;
